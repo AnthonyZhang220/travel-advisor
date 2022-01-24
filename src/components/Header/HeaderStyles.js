@@ -7,6 +7,23 @@ export default makeStyles((theme) => ({
 			display: "block",
 		},
 	},
+
+	logo: {
+		// padding: theme.spacing(0, 2),
+		pointerEvents: "none",
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "center",
+	},
+
+	exploreIcon: {
+		padding: theme.spacing(0, 2),
+		pointerEvents: "none",
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "center",
+	},
+
 	search: {
 		position: "relative",
 		borderRadius: theme.shape.borderRadius,
