@@ -1,8 +1,8 @@
 import React from 'react';
 import GoogleMapReact from 'google-map-react';
-import { Paper, Typography, useMediaQuery } from '@material-ui/core';
-import LocationOnOutlinedIcon from '@material-ui/icons/LocationOnOutlined';
+import { Paper, Typography, useMediaQuery, Box } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating';
+import PlaceIcon from '@mui/icons-material/Place';
 
 import useStyles from './MapStyles.js';
 
@@ -11,7 +11,7 @@ const Map = ({ coordinates, places, setCoordinates, setBounds, setChildClicked, 
     const classes = useStyles();
 
     return (
-        <div className={classes.mapContainer}>
+        <Box className={classes.mapContainer}>
             <GoogleMapReact
                 bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAP_API_KEY }}
                 defaultCenter={coordinates}
@@ -25,35 +25,24 @@ const Map = ({ coordinates, places, setCoordinates, setBounds, setChildClicked, 
                 }}
                 onChildClick={(child) => setChildClicked(child)}
             >
-                {places.length && places.map((place, i) => (
+                {places?.length && places?.map((place, i) => (
                     <div
                         className={classes.markerContainer}
                         lat={Number(place.latitude)}
                         lng={Number(place.longitude)}
                         key={i}
                     >
-                        {!matches
-                            ? <LocationOnOutlinedIcon color="primary" fontSize="large" />
-                            : (
-                                <Paper elevation={3} className={classes.paper}>
-                                    <Typography className={classes.typography} variant="subtitle2" gutterBottom> {place.name}</Typography>
-                                    <img
-                                        className={classes.pointer}
-                                        src={place.photo ? place.photo.images.large.url : 'https://www.foodserviceandhospitality.com/wp-content/uploads/2016/09/Restaurant-Placeholder-001.jpg'}
-                                        alt='' />
-                                    <Rating name="read-only" size="small" value={Number(place.rating)} readOnly />
-                                </Paper>
-                            )}
+                        <PlaceIcon color="primary" fontSize="large" />
                     </div>
                 ))}
                 {weatherData?.list?.length && weatherData.list.map((data, i) => (
-                    <div key={i} lat={data.coord.lat} lng={data.coord.lon}>
+                    <Box key={i} lat={data.coord.lat} lng={data.coord.lon}>
                         <img src={`http://openweathermap.org/img/w/${data.weather[0].icon}.png`} height="70px" alt='' />
-                    </div>
+                    </Box>
                 ))}
             </GoogleMapReact>
 
-        </div>
+        </Box>
     );
 };
 

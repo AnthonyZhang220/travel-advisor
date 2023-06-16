@@ -11,7 +11,7 @@ const Header = ({ onPlaceChanged, onLoad }) => {
     const classes = useStyles();
 
     return (
-        <AppBar position="static" style={{
+        <AppBar position="relative" style={{
             background:
                 "#34e0a1"
         }}>
@@ -23,18 +23,12 @@ const Header = ({ onPlaceChanged, onLoad }) => {
                     Tripadvisor
                 </Typography>
                 <Box display="flex">
-                    <div className={classes.exploreIcon}>
-                        <ExploreIcon />
-                    </div>
-                    <Typography variant="h6" className={classes.title}>
-                        Explore
-                    </Typography>
                     <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
                         <div className={classes.search}>
                             <div className={classes.searchIcon}>
                                 <SearchIcon />
                             </div>
-                            <InputBase placeholder="Where to?" classes={{ root: classes.inputRoot, input: classes.inputInput }} />
+                            <InputBase placeholder="Search Maps" classes={{ root: classes.inputRoot, input: classes.inputInput }} />
                         </div>
                     </Autocomplete>
                 </Box>
