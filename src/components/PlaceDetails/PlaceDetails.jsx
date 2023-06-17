@@ -6,21 +6,29 @@ import Rating from '@material-ui/lab/Rating';
 
 import useStyles from './PlaceDetailsStyles';
 
-const PlaceDetails = ({ place, selected, refProp }) => {
+const PlaceDetails = ({ place, selected, refProp, handleSelectedPlace }) => {
     if (selected) refProp?.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     const classes = useStyles();
 
     return (
         <Fragment>
-            <Box sx={{ borderRadius: "6px" }}>
+            <Box
+                sx={{
+                    p: 2,
+                    backgroundColor: selected ? "#f1f2f3" : "inherit", "&:hover": {
+                        backgroundColor: "#f1f2f3"
+                    }
+                }}
+                onClick={() => handleSelectedPlace(place)}
+            >
                 <CardContent className={classes.cardcontent}>
                     <Box display="flex">
                         <Box>
                             <Typography variant="h6">{place.name}</Typography>
                             <Box display="flex" justifyContent="flex-start">
                                 <Typography variant='subtitle2' component="legend">{Number(place.rating).toFixed(1)}</Typography>
-                                <Rating name="read-only" size="small" value={Number(place.rating).toFixed(1)} readOnly />
-                                <Typography variant='subtitle2' component="legend">{`(${place.num_reviews})`} * {place.price_level}</Typography>
+                                <Rating name="read-only" size="small" precision={0.1} value={Number(place.rating)} readOnly />
+                                <Typography variant='subtitle2' component="legend">{`(${place.num_reviews})`} · {place.price_level}</Typography>
                             </Box>
                             {place?.awards?.map((award) => (
                                 <Box display="flex" justifyContent="flex-start" my={1} alignItems="center">
@@ -36,6 +44,17 @@ const PlaceDetails = ({ place, selected, refProp }) => {
                                     <LocationOnIcon />{place.address}
                                 </Typography>
                             )}
+                            <Box display="flex" justifyContent="flex-start">
+                                {
+                                    place.is_closed ?
+                                        <Typography gutterBottom variant="body1" sx={{ color: "red" }} className={classes.subtitle}>
+                                            Closed
+                                        </Typography> :
+                                        <Typography gutterBottom variant="body1" sx={{ color: "green" }} className={classes.subtitle}>
+                                            Open
+                                        </Typography>
+                                }
+                            </Box>
                         </Box>
                         <CardMedia
                             style={{ height: "150px", width: "150px", borderRadius: "8px", objectFit: "contain", marginLeft: "auto" }}

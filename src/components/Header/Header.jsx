@@ -2,7 +2,6 @@ import React from 'react';
 import { Autocomplete } from '@react-google-maps/api';
 import { AppBar, Toolbar, Typography, InputBase, Box } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-import ExploreIcon from '@mui/icons-material/Explore';
 import TripOriginIcon from '@mui/icons-material/TripOrigin';
 
 import useStyles from './HeaderStyles';
@@ -16,11 +15,11 @@ const Header = ({ onPlaceChanged, onLoad }) => {
                 "#34e0a1"
         }}>
             <Toolbar className={classes.toolbar}>
-                <Typography variant="h5" className={classes.title} >
+                <Typography variant="h6" className={classes.title} >
                     <div className={classes.logo}>
                         <TripOriginIcon />
+                        Tripadvisor
                     </div>
-                    Tripadvisor
                 </Typography>
                 <Box display="flex">
                     <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>

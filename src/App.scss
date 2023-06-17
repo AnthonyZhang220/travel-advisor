@@ -1,6 +1,5 @@
 html,
 body {
-
 }
 
 .app-container {
@@ -9,5 +8,5 @@ body {
 	top: 0;
 	left: 0;
 	position: absolute;
-	overflow: hidden;
+	display: flex;
 }

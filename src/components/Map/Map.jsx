@@ -6,7 +6,7 @@ import PlaceIcon from '@mui/icons-material/Place';
 
 import useStyles from './MapStyles.js';
 
-const Map = ({ coordinates, places, setCoordinates, setBounds, setChildClicked, weatherData }) => {
+const Map = ({ coordinates, places, setCoordinates, setBounds, setChildClicked, weatherData, handleSelectedPlace }) => {
     const matches = useMediaQuery('(min-width:600px)');
     const classes = useStyles();
 
@@ -26,14 +26,27 @@ const Map = ({ coordinates, places, setCoordinates, setBounds, setChildClicked, 
                 onChildClick={(child) => setChildClicked(child)}
             >
                 {places?.length && places?.map((place, i) => (
-                    <div
+                    <Box
+                        onClick={() => handleSelectedPlace(place)}
                         className={classes.markerContainer}
                         lat={Number(place.latitude)}
                         lng={Number(place.longitude)}
                         key={i}
+                        sx={{
+                            "&::after": {
+                                content: `"${place.name}"`,
+                                color: "black",
+                                position: "absolute",
+                                left: 25,
+                                maxWidth: "80px",
+                                fontWeight: "bolder",
+                                verticalAlign: "middle",
+                            }
+                        }}
+
                     >
-                        <PlaceIcon color="primary" fontSize="large" />
-                    </div>
+                        <PlaceIcon sx={{ fontSize: 30, color: "red", padding: 0, m: 0 }} />
+                    </Box>
                 ))}
                 {weatherData?.list?.length && weatherData.list.map((data, i) => (
                     <Box key={i} lat={data.coord.lat} lng={data.coord.lon}>

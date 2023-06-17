@@ -6,6 +6,7 @@ import List from "./components/List/List";
 import Map from "./components/Map/Map";
 
 import "./App.scss"
+import ListDetail from "./components/ListDetail/ListDetail.jsx";
 
 const App = () => {
 	const [type, setType] = useState("restaurants");
@@ -20,6 +21,8 @@ const App = () => {
 
 	const [childClicked, setChildClicked] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
+
+	const [selectedPlace, setSelectedPlace] = useState(null);
 
 	useEffect(() => {
 		navigator.geolocation.getCurrentPosition(
@@ -51,37 +54,46 @@ const App = () => {
 
 	}, [bounds, type]);
 
+	const handleSelectedPlace = (place) => {
+		setSelectedPlace(place)
+	}
+
 
 	return (
 		<Box className="app-container">
 			<CssBaseline />
-			<Grid container sx={{ height: "100%", width: "100%" }}>
-				<Grid item xs={12} md={3} sx={{ position: "relative" }}>
-					<List
-						isLoading={isLoading}
-						childClicked={childClicked}
-						places={filteredPlaces?.length ? filteredPlaces : places}
-						type={type}
-						setType={setType}
-						rating={rating}
-						setRating={setRating}
-						setCoordinates={setCoordinates}
-					/>
-				</Grid>
-				<Grid
-					item
-					xs={12}
-					md={9}
-				>
-					<Map
-						setChildClicked={setChildClicked}
-						setBounds={setBounds}
-						setCoordinates={setCoordinates}
-						coordinates={coordinates}
-						places={filteredPlaces?.length ? filteredPlaces : places}
-						weatherData={weatherData}
-					/>
-				</Grid>
+			<Grid item xs={12} md={3} sx={{ height: "100%", display: "flex", flex: "0 0 350px", flexDirection: "column" }}>
+				<List
+					isLoading={isLoading}
+					childClicked={childClicked}
+					places={filteredPlaces?.length ? filteredPlaces : places}
+					type={type}
+					setType={setType}
+					rating={rating}
+					setRating={setRating}
+					setCoordinates={setCoordinates}
+					selectedPlace={selectedPlace}
+					handleSelectedPlace={handleSelectedPlace}
+				/>
+			</Grid>
+			<Grid
+				xs={12} md={9}
+				sx={{ height: "100%", display: "flex", flex: 1 }}
+			>
+				<Map
+					setChildClicked={setChildClicked}
+					setBounds={setBounds}
+					setCoordinates={setCoordinates}
+					coordinates={coordinates}
+					places={filteredPlaces?.length ? filteredPlaces : places}
+					weatherData={weatherData}
+					handleSelectedPlace={handleSelectedPlace}
+				/>
+				{selectedPlace ?
+					<ListDetail selectedPlace={selectedPlace} handleSelectedPlace={handleSelectedPlace} />
+					:
+					null
+				}
 			</Grid>
 		</Box>
 	);

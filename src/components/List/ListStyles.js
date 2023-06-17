@@ -8,10 +8,11 @@ export default makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   loading: {
-    maxHeight: "calc(100vh - 0px)", display: 'flex', justifyContent: 'center', alignItems: 'center',
+    maxHeight: "100%", display: 'flex', justifyContent: 'center', alignItems: 'center',
   },
   container: {
-    height: "100%"
+    height: "100%",
+    boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
   },
   options: {
     padding: "25px 25px 0px 25px",
@@ -20,7 +21,7 @@ export default makeStyles((theme) => ({
     marginBottom: '30px',
   },
   listcontainer: {
-    maxHeight: "calc(100vh - 0px)",
+    height: "80%",
     overflowY: "auto",
     "&::-webkit-scrollbar": {
       width: "8px",
@@ -38,5 +39,8 @@ export default makeStyles((theme) => ({
   list: {
     paddingLeft: "25px",
     paddingRight: "25px"
+  },
+  showCount: {
+    
   },
 }));

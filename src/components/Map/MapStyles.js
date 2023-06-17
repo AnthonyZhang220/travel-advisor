@@ -7,9 +7,9 @@ export default makeStyles(() => ({
   mapContainer: {
     height: '100%', width: '100%',
   },
-  // markerContainer: {
-  //   position: 'absolute', transform: 'translate(-50%, -50%)',
-  // },
+  markerContainer: {
+    position: 'absolute', transform: 'translate(-50%, -50%)', cursor: "pointer"
+  },
   pointer: {
     cursor: 'pointer',
   },
