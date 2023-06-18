@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import { Box, Typography, Button, Card, CardMedia, CardContent, CardActions, Chip, Divider } from '@material-ui/core';
+import React from 'react';
+import { Box, Typography, Button, CardMedia, CardContent, CardActions, Chip, Divider } from '@material-ui/core';
 import ListItemButton from '@mui/material/ListItemButton';
-import { ListItem, ListItemIcon, List, ListItemText, Collapse, IconButton } from "@material-ui/core"
+import { ListItemIcon, ListItemText, IconButton } from "@material-ui/core"
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import PhoneIcon from '@material-ui/icons/Phone';
 import Rating from '@material-ui/lab/Rating';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import PublicIcon from '@mui/icons-material/Public';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
+// import ExpandLess from '@mui/icons-material/ExpandLess';
+// import ExpandMore from '@mui/icons-material/ExpandMore';
 import CloseIcon from '@mui/icons-material/Close';
 
 import useStyles from './ListDetailStyles';
@@ -17,7 +17,7 @@ import useStyles from './ListDetailStyles';
 const ListDetail = ({ selectedPlace, handleSelectedPlace }) => {
     const classes = useStyles();
 
-    const [open, setOpen] = useState(false);
+    // const [open, setOpen] = useState(false);
 
     const copyToClip = (value) => {
         window.navigator.clipboard.writeText(value)
