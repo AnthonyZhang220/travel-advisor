@@ -25,7 +25,7 @@ const ListDetail = ({ selectedPlace, handleSelectedPlace }) => {
 
     return (
         <Box className={classes.placeContainer} >
-            <IconButton size={15} onClick={() => handleSelectedPlace(null)} className={classes.closeIcon}>
+            <IconButton size="small" onClick={() => handleSelectedPlace(null)} className={classes.closeIcon}>
                 <CloseIcon />
             </IconButton>
             <CardMedia
@@ -40,7 +40,7 @@ const ListDetail = ({ selectedPlace, handleSelectedPlace }) => {
                         <Box display="flex" justifyContent="flex-start">
                             <Typography gutterBottom variant='subtitle2' component="legend">{Number(selectedPlace.rating).toFixed(1)}</Typography>
                             <Rating name="read-only" size="small" precision={0.1} value={Number(selectedPlace.rating)} readOnly />
-                            <Typography gutterBottom variant='subtitle2' component="legend">{`(${selectedPlace.num_reviews})`} * {selectedPlace.price_level}</Typography>
+                            <Typography gutterBottom variant='subtitle2' component="legend">{`(${selectedPlace.num_reviews})`} · {selectedPlace.price_level}</Typography>
                         </Box>
                         {selectedPlace?.awards?.map((award) => (
                             <Box display="flex" justifyContent="flex-start" my={1} alignItems="center">
@@ -49,7 +49,7 @@ const ListDetail = ({ selectedPlace, handleSelectedPlace }) => {
                             </Box>
                         ))}
                         {selectedPlace?.cuisine?.map(({ name }) => (
-                            <Chip key={name} size="large" label={name} className={classes.chip} />
+                            <Chip key={name} size="small" label={name} className={classes.chip} />
                         ))}
                     </Box>
                 </Box>

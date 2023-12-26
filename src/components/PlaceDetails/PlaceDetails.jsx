@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
-import { Box, Typography, Button, CardMedia, CardContent, CardActions, Chip, Divider } from '@material-ui/core';
+import { Box, Button, CardMedia, CardContent, CardActions, Chip, Divider } from '@material-ui/core';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
+import { Typography } from '@mui/material';
 import Rating from '@material-ui/lab/Rating';
 
 import useStyles from './PlaceDetailsStyles';
@@ -28,6 +29,9 @@ const PlaceDetails = ({ place, selected, refProp, handleSelectedPlace }) => {
                                 <Typography variant='subtitle2' component="legend">{Number(place.rating).toFixed(1)}</Typography>
                                 <Rating name="read-only" size="small" precision={0.1} value={Number(place.rating)} readOnly />
                                 <Typography variant='subtitle2' component="legend">{`(${place.num_reviews})`} · {place.price_level}</Typography>
+                                <Typography variant="subtitle2" sx={{ color: place.is_closed ? "#ff2400" : "#007500" }} component="legend">
+                                    {place.is_closed ? "Closed" : "Open"}
+                                </Typography>
                             </Box>
                             {place?.awards?.map((award) => (
                                 <Box display="flex" justifyContent="flex-start" my={1} alignItems="center">
@@ -44,19 +48,10 @@ const PlaceDetails = ({ place, selected, refProp, handleSelectedPlace }) => {
                                 </Typography>
                             )}
                             <Box display="flex" justifyContent="flex-start">
-                                {
-                                    place.is_closed ?
-                                        <Typography gutterBottom variant="body1" sx={{ color: "red" }} className={classes.subtitle}>
-                                            Closed
-                                        </Typography> :
-                                        <Typography gutterBottom variant="body1" sx={{ color: "green" }} className={classes.subtitle}>
-                                            Open
-                                        </Typography>
-                                }
                             </Box>
                         </Box>
                         <CardMedia
-                            style={{ height: "150px", width: "150px", borderRadius: "8px", objectFit: "contain", marginLeft: "auto" }}
+                            style={{ height: "100px", width: "100px", borderRadius: "8px", objectFit: "contain", marginLeft: "auto" }}
                             image={place.photo ? place.photo.images.large.url : 'https://www.foodserviceandhospitality.com/wp-content/uploads/2016/09/Restaurant-Placeholder-001.jpg'}
                             title={place.name}
                         />

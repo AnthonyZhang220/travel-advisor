@@ -1,21 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { CssBaseline, Grid, Box } from "@material-ui/core";
-
-import { getPlacesData, getWeatherData } from "./api/index.js";
+import React, { useState, useEffect, useRef } from "react";
+import { CssBaseline, Box, responsiveFontSizes } from "@material-ui/core";
+import { createTheme, ThemeProvider } from "@material-ui/core";
+import { getPlacesData } from "./api/index.js";
 import List from "./components/List/List";
 import Map from "./components/Map/Map";
+import ListDetail from "./components/ListDetail/ListDetail.jsx";
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 
 import "./App.scss"
-import ListDetail from "./components/ListDetail/ListDetail.jsx";
 
 const App = () => {
 	const [type, setType] = useState("restaurants");
 	const [rating, setRating] = useState("");
+	const [openList, setOpenList] = useState(true)
 
 	const [coordinates, setCoordinates] = useState({});
 	const [bounds, setBounds] = useState(null);
 
-	const [weatherData, setWeatherData] = useState([]);
 	const [filteredPlaces, setFilteredPlaces] = useState([]);
 	const [places, setPlaces] = useState([]);
 
@@ -23,6 +25,8 @@ const App = () => {
 	const [isLoading, setIsLoading] = useState(false);
 
 	const [selectedPlace, setSelectedPlace] = useState(null);
+
+	const listRef = useRef(null)
 
 	useEffect(() => {
 		navigator.geolocation.getCurrentPosition(
@@ -34,68 +38,90 @@ const App = () => {
 
 	useEffect(() => {
 		setFilteredPlaces(places?.filter((place) => Number(place.rating) > rating));
-	}, [rating]);
+	}, [rating, places]);
 
 	useEffect(() => {
 		if (bounds) {
 			setIsLoading(true);
 
-			getWeatherData(coordinates.lat, coordinates.lng).then((data) =>
-				setWeatherData(data)
-			);
 
 			getPlacesData(type, bounds.sw, bounds.ne).then((data) => {
-				setPlaces(data?.filter((place) => place.name && place.num_reviews > 0));
+				if (data) {
+					setPlaces(data.filter((place) => place.name && place.num_reviews > 0));
+				}
 				setFilteredPlaces([]);
 				setRating("");
 				setIsLoading(false);
 			});
 		}
 
-	}, [bounds, type]);
+	}, [bounds, type])
 
 	const handleSelectedPlace = (place) => {
+		console.log(place)
 		setSelectedPlace(place)
 	}
 
+	const handleToggleList = () => {
+		setOpenList((prev) => !prev)
+	}
+
+	useEffect(() => {
+		const listEle = document.getElementById("list-section")
+		if (openList) {
+			listEle.classList.add("list-close")
+		} else {
+			listEle.classList.remove("list-close")
+		}
+	}, [openList])
+
+	let theme = createTheme();
+	theme = responsiveFontSizes(theme)
 
 	return (
-		<Box className="app-container">
+		<ThemeProvider theme={theme}>
 			<CssBaseline />
-			<Grid item xs={12} md={3} sx={{ height: "100%", display: "flex", flex: "0 0 350px", flexDirection: "column" }}>
-				<List
-					isLoading={isLoading}
-					childClicked={childClicked}
-					places={filteredPlaces?.length ? filteredPlaces : places}
-					type={type}
-					setType={setType}
-					rating={rating}
-					setRating={setRating}
-					setCoordinates={setCoordinates}
-					selectedPlace={selectedPlace}
-					handleSelectedPlace={handleSelectedPlace}
-				/>
-			</Grid>
-			<Grid
-				xs={12} md={9}
-				sx={{ height: "100%", display: "flex", flex: 1 }}
-			>
-				<Map
-					setChildClicked={setChildClicked}
-					setBounds={setBounds}
-					setCoordinates={setCoordinates}
-					coordinates={coordinates}
-					places={filteredPlaces?.length ? filteredPlaces : places}
-					weatherData={weatherData}
-					handleSelectedPlace={handleSelectedPlace}
-				/>
-				{selectedPlace ?
-					<ListDetail selectedPlace={selectedPlace} handleSelectedPlace={handleSelectedPlace} />
-					:
-					null
-				}
-			</Grid>
-		</Box>
+			<Box className="app-container">
+				<Box className="list-section" id="list-section" ref={listRef}>
+					<Box className="list">
+						<List
+							isLoading={isLoading}
+							childClicked={childClicked}
+							places={filteredPlaces?.length ? filteredPlaces : places}
+							type={type}
+							setType={setType}
+							rating={rating}
+							setRating={setRating}
+							setCoordinates={setCoordinates}
+							selectedPlace={selectedPlace}
+							handleSelectedPlace={handleSelectedPlace}
+						/>
+					</Box>
+					{selectedPlace &&
+						<Box className="listdetail">
+							<ListDetail selectedPlace={selectedPlace} handleSelectedPlace={handleSelectedPlace} />
+						</Box>
+					}
+					<Box className="notch" onClick={handleToggleList}>
+						<Box className="notch-container">
+							{openList ? <NavigateNextIcon /> : <NavigateBeforeIcon />}
+						</Box>
+					</Box>
+				</Box>
+				<Box className="map-section">
+					<Map
+						isLoading={isLoading}
+						setChildClicked={setChildClicked}
+						setBounds={setBounds}
+						setCoordinates={setCoordinates}
+						coordinates={coordinates}
+						places={filteredPlaces?.length ? filteredPlaces : places}
+						handleSelectedPlace={handleSelectedPlace}
+						selectedPlace={selectedPlace}
+					/>
+				</Box>
+			</Box>
+		</ThemeProvider>
 	);
 };
 

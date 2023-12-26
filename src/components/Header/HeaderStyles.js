@@ -1,4 +1,4 @@
-import { alpha, makeStyles } from "@material-ui/core/styles";
+import { alpha, makeStyles, } from "@material-ui/core/styles";
 
 export default makeStyles((theme) => ({
 	title: {
@@ -7,15 +7,15 @@ export default makeStyles((theme) => ({
 			display: "block",
 		},
 	},
-
 	logo: {
-		// padding: theme.spacing(0, 2),
 		pointerEvents: "none",
 		display: "flex",
 		alignItems: "center",
 		justifyContent: "center",
 	},
-
+	autocomplete: {
+		zIndex: 100
+	},
 	exploreIcon: {
 		padding: theme.spacing(0, 2),
 		pointerEvents: "none",
@@ -51,7 +51,7 @@ export default makeStyles((theme) => ({
 	},
 	inputInput: {
 		padding: theme.spacing(1, 1, 1, 0),
-		paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+		paddingLeft: `calc(0.5rem + ${theme.spacing(4)}px)`,
 		transition: theme.transitions.create("width"),
 		width: "100%",
 		[theme.breakpoints.up("md")]: { width: "20ch" },
@@ -59,5 +59,6 @@ export default makeStyles((theme) => ({
 	toolbar: {
 		display: "flex",
 		justifyContent: "space-between",
+		width: "100%",
 	},
 }));

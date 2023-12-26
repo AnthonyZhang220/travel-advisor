@@ -6,29 +6,30 @@ import TripOriginIcon from '@mui/icons-material/TripOrigin';
 
 import useStyles from './HeaderStyles';
 
+
 const Header = ({ onPlaceChanged, onLoad }) => {
     const classes = useStyles();
 
     return (
-        <AppBar position="relative" style={{
+        <AppBar className={classes.header} position="relative" style={{
             background:
                 "#34e0a1"
         }}>
             <Toolbar className={classes.toolbar}>
-                <Typography variant="h6" className={classes.title} >
-                    <div className={classes.logo}>
-                        <TripOriginIcon />
+                <Box className={classes.logo}>
+                    <TripOriginIcon />
+                    <Typography variant="h6" className={classes.title} >
                         Tripadvisor
-                    </div>
-                </Typography>
-                <Box display="flex">
-                    <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
-                        <div className={classes.search}>
-                            <div className={classes.searchIcon}>
+                    </Typography>
+                </Box>
+                <Box className={classes.searchContainer}>
+                    <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged} className={classes.autocomplete}>
+                        <Box className={classes.search}>
+                            <Box className={classes.searchIcon}>
                                 <SearchIcon />
-                            </div>
+                            </Box>
                             <InputBase placeholder="Search Maps" classes={{ root: classes.inputRoot, input: classes.inputInput }} />
-                        </div>
+                        </Box>
                     </Autocomplete>
                 </Box>
             </Toolbar>

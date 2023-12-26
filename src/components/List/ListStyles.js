@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export default makeStyles((theme) => ({
+export default makeStyles((theme, childClicked) => ({
   formControl: {
     margin: theme.spacing(1), minWidth: 120, marginBottom: '10px',
   },
@@ -8,20 +8,26 @@ export default makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   loading: {
-    maxHeight: "100%", display: 'flex', justifyContent: 'center', alignItems: 'center',
+    maxHeight: "100%", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"
   },
   container: {
-    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    position: "relative",
     boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
+    backgroundColor: "#ffffff",
+    zIndex: 1,
   },
   options: {
-    padding: "25px 25px 0px 25px",
+    display: "flex", padding: "0.5rem 1rem"
+
   },
   marginBottom: {
     marginBottom: '30px',
   },
   listcontainer: {
-    height: "80%",
+    position: "relative",
+    height: "calc(100vh - 6rem)",
     overflowY: "auto",
     "&::-webkit-scrollbar": {
       width: "8px",
@@ -37,10 +43,13 @@ export default makeStyles((theme) => ({
     },
   },
   list: {
-    paddingLeft: "25px",
-    paddingRight: "25px"
+    padding: "0",
   },
   showCount: {
-    
+    height: "2rem", backgroundColor: "#ffffff", width: "100%",
+    display: "flex", justifyContent: "center", alignItems: "center"
+  },
+  showCountText: {
+    textAlign: "center",
   },
 }));

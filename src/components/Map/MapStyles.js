@@ -5,12 +5,18 @@ export default makeStyles(() => ({
     padding: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100px',
   },
   mapContainer: {
-    height: '100%', width: '100%',
+    height: '100%', width: '100%', position: "relative",
+  },
+  map: {
+    height: '100%', width: '100%', position: "relative",
   },
   markerContainer: {
-    position: 'absolute', transform: 'translate(-50%, -50%)', cursor: "pointer"
+    position: 'absolute', transform: 'translate(-50%, -50%)', cursor: "pointer", display: "grid", gridTemplateColumns: "repeat(1, 1fr 10fr)", fontWeight: "bold", width: "100%"
   },
   pointer: {
     cursor: 'pointer',
   },
+  searchbox: {
+    position: "absolute", top: "2rem", left: "calc(204px + 50%)", transform: "translate(-50%,-50%)", backgroundColor: "#fff", zIndex: 2000
+  }
 }));

@@ -3,15 +3,11 @@ import { darken } from '@material-ui/core/styles';
 
 export default makeStyles(() => ({
     placeContainer: {
-        display: "relative",
-        position: "absolute",
-        top: 60,
-        marginLeft: "20px",
+        position: "relative",
         Zindex: 2,
         background: "#ffffff",
         borderRadius: "8px",
         boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
-        width: "408px"
     },
     closeIcon: {
         position: "absolute",
