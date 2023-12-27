@@ -18,5 +18,8 @@ export default makeStyles(() => ({
   },
   searchbox: {
     position: "absolute", top: "2rem", left: "calc(204px + 50%)", transform: "translate(-50%,-50%)", backgroundColor: "#fff", zIndex: 2000
+  },
+  weatherCard: {
+    position: "absolute", top: 0, right: 0, transform: "translate(-50%,-50%)"
   }
 }));

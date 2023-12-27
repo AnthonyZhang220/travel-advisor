@@ -1,14 +1,39 @@
 import React, { useState } from 'react';
 import GoogleMapReact from 'google-map-react';
-import { Typography, Box } from '@material-ui/core';
+import { Typography, Box, Button, CardActions, ListItemIcon, ListItemButton, ListItemText, Collapse, Card, CardContent } from '@mui/material';
 import PlaceIcon from '@mui/icons-material/Place';
 import SearchIcon from '@mui/icons-material/Search';
 import LoadingButton from '@mui/lab/LoadingButton';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import IconButton from '@mui/material/IconButton';
+import ThermostatIcon from '@mui/icons-material/Thermostat';
+import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
+import AirIcon from '@mui/icons-material/Air';
+import ThunderstormIcon from '@mui/icons-material/Thunderstorm';
+import { styled } from '@material-ui/core';
+
 import useStyles from './MapStyles.js';
+
+const ExpandMore = styled((props) => {
+    const { expand, ...other } = props;
+    return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+    marginLeft: 'auto',
+    transition: theme.transitions.create('transform', {
+        duration: theme.transitions.duration.shortest,
+    }),
+}));
+
 
 const Map = ({ isLoading, coordinates, places, setCoordinates, setBounds, setChildClicked, weatherData, handleSelectedPlace, selectedPlace }) => {
     const classes = useStyles();
     const [currentBounds, setCurrentBounds] = useState({})
+    const [expanded, setExpanded] = useState(false);
+
+    const handleExpandClick = () => {
+        setExpanded(!expanded)
+    }
     const onPinClicked = (child) => {
         setChildClicked(child)
     }
@@ -36,17 +61,82 @@ const Map = ({ isLoading, coordinates, places, setCoordinates, setBounds, setChi
                 {places?.length && places?.map((place, i) => (
                     <Markers classes={classes} place={place} lng={Number(place.longitude)} lat={Number(place.latitude)} key={i} handleSelectedPlace={handleSelectedPlace} selectedPlace={selectedPlace} />
                 ))}
-                {weatherData?.list?.length && weatherData.list.map((data, i) => (
-                    <Box key={i} lat={data.coord.lat} lng={data.coord.lon}>
-                        <img src={`http://openweathermap.org/img/w/${data.weather[0].icon}.png`} height="70px" alt='' />
-                    </Box>
-                ))}
+                {weatherData &&
+                    <Card className={classes.weatherCard}>
+                        <CardContent>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <img src={`https://openweathermap.org/img/wn/${weatherData.current.weather.icon}@2x.png`} alt={weatherData.current.weather.description} />
+                                </ListItemIcon>
+                                <ListItemText primary={weatherData.current.weather.main} />
+                            </ListItemButton>
+                            <ListItemButton>
+                                <ListItemText primary={`Daily Summary:${weatherData.daily.summary}`} />
+                            </ListItemButton>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <ThermostatIcon />
+                                </ListItemIcon>
+                                <ListItemText primary={`Temperture: ${weatherData.current.temp}`} />
+                            </ListItemButton>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <EmojiEmotionsIcon />
+                                </ListItemIcon>
+                                <ListItemText primary={`Feels Like: ${weatherData.current.feels_like}`} />
+                            </ListItemButton>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <AirIcon />
+                                </ListItemIcon>
+                                <ListItemText primary={`Wind Speed:${weatherData.current.wind_speed} metre/sec`} />
+                            </ListItemButton>
+                            <ListItemButton >
+                                <ListItemIcon>
+                                    <ThunderstormIcon />
+                                </ListItemIcon>
+                                <ListItemText primary={`Rain Possibility: ${weatherData.daily.pop * 100}%`} />
+                            </ListItemButton>
+                        </CardContent>
+                        {weatherData.alerts &&
+                            <>
+                                <CardActions disableSpacing>
+                                    <Button onClick={handleExpandClick} color="error">
+                                        Alerts
+                                    </Button>
+                                    <Typography>
+                                        {weatherData.alerts?.event}
+                                    </Typography>
+                                    <ExpandMore
+                                        expand={expanded}
+                                        onClick={handleExpandClick}
+                                        aria-expanded={expanded}
+                                        aria-label="show alert"
+                                    >
+                                        <ExpandMoreIcon />
+                                    </ExpandMore>
+                                </CardActions>
+                                <Collapse in={expanded} timeout="auto" unmountOnExit>
+                                    <CardContent>
+                                        <Typography paragraph>{weatherData.alert?.sender_name}</Typography>
+                                        <Typography paragraph>
+                                            {weatherData.alerts?.description}
+                                        </Typography>
+                                    </CardContent>
+                                </Collapse>
+                            </>
+                        }
+                    </Card>
+                }
             </GoogleMapReact>
             <SearchBox classes={classes} isLoading={isLoading} setBounds={setBounds} currentBounds={currentBounds} setCoordinates={setCoordinates} />
         </Box>
     );
 };
 export default Map;
+
+
+
 
 function SearchBox({ classes, isLoading, setBounds, currentBounds }) {
     return (

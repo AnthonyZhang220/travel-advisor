@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { CssBaseline, Box, responsiveFontSizes } from "@material-ui/core";
 import { createTheme, ThemeProvider } from "@material-ui/core";
-import { getPlacesData } from "./api/index.js";
+import { getPlacesData, getWeatherData } from "./api/index.js";
 import List from "./components/List/List";
 import Map from "./components/Map/Map";
 import ListDetail from "./components/ListDetail/ListDetail.jsx";
@@ -21,6 +21,7 @@ const App = () => {
 	const [filteredPlaces, setFilteredPlaces] = useState([]);
 	const [places, setPlaces] = useState([]);
 
+	const [weatherData, setWeatherData] = useState(null)
 	const [childClicked, setChildClicked] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -53,6 +54,13 @@ const App = () => {
 				setRating("");
 				setIsLoading(false);
 			});
+
+			getWeatherData(coordinates.lat, coordinates.lng).then((data) => {
+				if (data) {
+					setWeatherData(data)
+				}
+				setIsLoading(false)
+			})
 		}
 
 	}, [bounds, type])
@@ -110,6 +118,7 @@ const App = () => {
 				</Box>
 				<Box className="map-section">
 					<Map
+						weatherData={weatherData}
 						isLoading={isLoading}
 						setChildClicked={setChildClicked}
 						setBounds={setBounds}
