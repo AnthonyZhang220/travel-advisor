@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { CssBaseline, Box, responsiveFontSizes } from "@material-ui/core";
 import { createTheme, ThemeProvider } from "@material-ui/core";
 import { getPlacesData, getWeatherData } from "./api/index.js";
@@ -7,10 +7,11 @@ import Map from "./components/Map/Map";
 import ListDetail from "./components/ListDetail/ListDetail.jsx";
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
-
+import useStyles from "./AppStyles.js";
 import "./App.scss"
 
 const App = () => {
+	const classes = useStyles()
 	const [type, setType] = useState("restaurants");
 	const [rating, setRating] = useState("");
 	const [openList, setOpenList] = useState(true)
@@ -27,7 +28,6 @@ const App = () => {
 
 	const [selectedPlace, setSelectedPlace] = useState(null);
 
-	const listRef = useRef(null)
 
 	useEffect(() => {
 		navigator.geolocation.getCurrentPosition(
@@ -74,24 +74,15 @@ const App = () => {
 		setOpenList((prev) => !prev)
 	}
 
-	useEffect(() => {
-		const listEle = document.getElementById("list-section")
-		if (openList) {
-			listEle.classList.add("list-close")
-		} else {
-			listEle.classList.remove("list-close")
-		}
-	}, [openList])
-
 	let theme = createTheme();
 	theme = responsiveFontSizes(theme)
 
 	return (
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
-			<Box className="app-container">
-				<Box className="list-section" id="list-section" ref={listRef}>
-					<Box className="list">
+			<Box className={classes.appContainer}>
+				<Box className={openList ? classes.listSection : classes.listSectionClose} >
+					<Box className={classes.list}>
 						<List
 							isLoading={isLoading}
 							childClicked={childClicked}
@@ -106,19 +97,21 @@ const App = () => {
 						/>
 					</Box>
 					{selectedPlace &&
-						<Box className="listdetail">
+						<Box className={classes.listDetail}>
 							<ListDetail selectedPlace={selectedPlace} handleSelectedPlace={handleSelectedPlace} />
 						</Box>
 					}
-					<Box className="notch" onClick={handleToggleList}>
-						<Box className="notch-container">
-							{openList ? <NavigateNextIcon /> : <NavigateBeforeIcon />}
+					<Box className={classes.notch} onClick={handleToggleList}>
+						<Box className={classes.notchContainer}>
+							{openList ? <NavigateBeforeIcon /> : <NavigateNextIcon />}
 						</Box>
 					</Box>
 				</Box>
-				<Box className="map-section">
+				
+				<Box className={classes.mapSection}>
 					<Map
 						weatherData={weatherData}
+						openList={openList}
 						isLoading={isLoading}
 						setChildClicked={setChildClicked}
 						setBounds={setBounds}

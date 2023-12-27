@@ -17,9 +17,58 @@ export default makeStyles(() => ({
     cursor: 'pointer',
   },
   searchbox: {
-    position: "absolute", top: "2rem", left: "calc(204px + 50%)", transform: "translate(-50%,-50%)", backgroundColor: "#fff", zIndex: 2000
+    position: "absolute", top: "1.5rem", left: "calc(50% + 204px)", transform: "translate(-50%,-50%)", backgroundColor: "#fff", zIndex: 2000
+  },
+  searchboxClose: {
+    position: "absolute", top: "1.5rem", left: "50%", transform: "translate(-50%,-50%)", backgroundColor: "#fff", zIndex: 2000
   },
   weatherCard: {
-    position: "absolute", top: 0, right: 0, transform: "translate(-50%,-50%)"
+    maxWidth: 300,
+  },
+  weatherCardContent: {
+    padding: "0.5rem 0rem"
+  },
+  weatherContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    top: 0,
+    right: 0,
+    zIndex: 5000,
+  },
+  weatherContainerClose: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    top: 0,
+    right: 0,
+    transform: "translateX(calc(100% - 1.5rem))",
+    transition: "all 0.1s ease-in-out",
+  },
+  weatherNotch: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "4rem",
+    width: "1.5rem",
+    borderRadius: "0.5rem 0 0 0.5rem",
+    backgroundColor: "#ffffff",
+    boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+    cursor: "pointer",
+    "&:hover": {
+      weatherNotchIcon: {
+        display: "flex"
+      }
+    }
+  },
+  weatherNotchContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  weatherNotchIcon: {
+    display: "none"
   }
 }));

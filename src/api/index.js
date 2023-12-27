@@ -38,6 +38,7 @@ export const getWeatherData = async (lat, lng) => {
 		const { data } = await axios.get(
 			`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lng}&appid=${process.env.REACT_APP_OPEN_WEATHER_API_KEY}`);
 
+		console.log("weather", data)
 		return data;
 	} catch (error) {
 		console.log(error);
